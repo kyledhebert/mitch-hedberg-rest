@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest.iml" filepath="$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest_main.iml" filepath="$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest_main.iml" group="mitch-hedberg-rest" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest_test.iml" filepath="$PROJECT_DIR$/.idea/modules/mitch-hedberg-rest_test.iml" group="mitch-hedberg-rest" />
+    </modules>
+  </component>
+</project>
