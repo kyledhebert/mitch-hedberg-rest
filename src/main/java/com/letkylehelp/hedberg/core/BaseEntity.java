@@ -1,4 +1,4 @@
-package com.letkylehelp.core;
+package com.letkylehelp.hedberg.core;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

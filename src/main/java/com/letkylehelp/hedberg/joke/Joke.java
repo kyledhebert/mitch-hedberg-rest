@@ -1,6 +1,6 @@
-package com.letkylehelp.joke;
+package com.letkylehelp.hedberg.joke;
 
-import com.letkylehelp.core.BaseEntity;
+import com.letkylehelp.hedberg.core.BaseEntity;
 
 import javax.persistence.Entity;
 
