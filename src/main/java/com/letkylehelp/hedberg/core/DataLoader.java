@@ -2,13 +2,20 @@ package com.letkylehelp.hedberg.core;
 
 import com.letkylehelp.hedberg.joke.Joke;
 import com.letkylehelp.hedberg.joke.JokeRepository;
+import org.springframework.batch.item.ExecutionContext;
+import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
+import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Spring Component for loading jokes into the {@link JokeRepository}
@@ -27,31 +34,51 @@ public class DataLoader implements ApplicationRunner {
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
-    List<Joke> jokeList = Arrays.asList(
-        new Joke(20, "A funny joke"),
-        new Joke(19, "A really funny joke"),
-        new Joke(18, "A really, really funny joke"),
-        new Joke(17, "A funny joke"),
-        new Joke(16, "A really funny joke"),
-        new Joke(15, "A really, really funny joke"),
-        new Joke(14, "A funny joke"),
-        new Joke(12, "A really funny joke"),
-        new Joke(13, "A really, really funny joke"),
-        new Joke(11, "A funny joke"),
-        new Joke(10, "A really funny joke"),
-        new Joke(9, "A really, really funny joke"),
-        new Joke(8, "A funny joke"),
-        new Joke(7, "A really funny joke"),
-        new Joke(6, "A really, really funny joke"),
-        new Joke(5, "A really, really funny joke"),
-        new Joke(4, "A really, really funny joke"),
-        new Joke(3, "A really, really funny joke"),
-        new Joke(3, "A really, really funny joke"),
-        new Joke(2, "A really, really funny joke"),
-        new Joke(1, "A really, really funny joke")
-    );
-
+    List<Joke> jokeList = readJokes();
     jokes.save(jokeList);
+  }
 
+  /**
+   * Reads a file {@code mitch_jokes.csv} from the class path and parses it into {@Joke} entities.
+   *
+   * @throws Exception
+   */
+  public static List<Joke> readJokes() throws Exception {
+    ClassPathResource resource = new ClassPathResource("mitch_jokes.csv");
+    Scanner scanner = new Scanner(resource.getInputStream());
+    String line = scanner.nextLine();
+    scanner.close();
+
+    FlatFileItemReader<Joke> itemReader = new FlatFileItemReader<>();
+    itemReader.setResource(resource);
+
+    DelimitedLineTokenizer tokenizer = new DelimitedLineTokenizer();
+    tokenizer.setNames(line.split(","));
+    tokenizer.setStrict(false);
+
+    DefaultLineMapper lineMapper = new DefaultLineMapper<Joke>();
+    lineMapper.setFieldSetMapper(fieldSet ->
+        new Joke(fieldSet.readInt("rank"), fieldSet.readString("content")));
+
+    lineMapper.setLineTokenizer(tokenizer);
+    itemReader.setLineMapper(lineMapper);
+    itemReader.setRecordSeparatorPolicy(new DefaultRecordSeparatorPolicy());
+    itemReader.setLinesToSkip(1);
+    itemReader.open(new ExecutionContext());
+
+    List<Joke> jokes = new ArrayList<>();
+    Joke joke;
+
+    do {
+
+      joke = itemReader.read();
+
+      if (joke != null) {
+        jokes.add(joke);
+      }
+
+    } while (joke != null);
+
+    return jokes;
   }
 }
