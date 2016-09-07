@@ -39,11 +39,12 @@ public class DataLoader implements ApplicationRunner {
   }
 
   /**
-   * Reads a file {@code mitch_jokes.csv} from the class path and parses it into {@Joke} entities.
+   * Reads a file {@code mitch_jokes.csv} from the class path and parses it into {@link Joke} entities.
    *
    * @throws Exception
    */
-  public static List<Joke> readJokes() throws Exception {
+
+  private static List<Joke> readJokes() throws Exception {
     ClassPathResource resource = new ClassPathResource("mitch_jokes.csv");
     Scanner scanner = new Scanner(resource.getInputStream());
     String line = scanner.nextLine();
