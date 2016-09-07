@@ -21,9 +21,10 @@ repositories {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'org.springframework.data:spring-data-rest-hal-browser'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    compile 'org.springframework.data:spring-data-rest-hal-browser'
+    compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.springframework.batch:spring-batch-core'
 //    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'com.h2database:h2'
