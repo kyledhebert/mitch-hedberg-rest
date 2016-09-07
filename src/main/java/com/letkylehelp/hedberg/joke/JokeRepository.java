@@ -16,8 +16,8 @@ import java.util.List;
  */
 @Repository
 public interface JokeRepository extends PagingAndSortingRepository<Joke, Long> {
-  Joke findByRank(@Param("rank") int rank);
-  @RestResource(rel = "content-contains", path = "containsWord")
-  Page<Joke> findByContentContainsIgnoreCase(@Param("word") String word, Pageable pageable);
-  List<Joke> findTop3ByOrderByRankAsc();
+  @RestResource(rel = "joke-contains", path = "containsWord")
+  Page<Joke> findByContentContainingIgnoreCase(@Param("word") String word, Pageable pageable);
+  @RestResource(rel = "get-top-five-jokes")
+  List<Joke> findTop5ByOrderByRankAsc();
 }
