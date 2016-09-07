@@ -15,10 +15,19 @@ function getRandomJoke() {
                 $.ajax({
                            url: "http://localhost:8080/api/v1/jokes/" + jokeId
                        }).then(function(data) {
-                    $('.joke-rank').append(data.rank);
+                    $('.joke-rank').append("Rank " + data.rank);
                     $('.joke-content').append(data.content);
                 });
         });
 }
 
+$(document).ready(function () {
+    $("#new-joke-button").click(function () {
+        $('.joke-rank').empty();
+        $('.joke-content').empty();
+        getRandomJoke();
+    });
+});
+
 getRandomJoke();
+
