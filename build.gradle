@@ -26,7 +26,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'org.springframework.batch:spring-batch-core'
-//    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'com.h2database:h2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
