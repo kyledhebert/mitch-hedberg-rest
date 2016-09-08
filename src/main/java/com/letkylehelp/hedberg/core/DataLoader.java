@@ -2,6 +2,8 @@ package com.letkylehelp.hedberg.core;
 
 import com.letkylehelp.hedberg.joke.Joke;
 import com.letkylehelp.hedberg.joke.JokeRepository;
+import com.letkylehelp.hedberg.user.User;
+import com.letkylehelp.hedberg.user.UserRepository;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
@@ -14,11 +16,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 /**
- * Spring Component for loading jokes into the {@link JokeRepository}
+ * Spring Component for loading jokes into the {@link JokeRepository}, and users into the
+ * {@link UserRepository}.
  *
  * @author kylehebert
  */
@@ -26,20 +30,33 @@ import java.util.Scanner;
 public class DataLoader implements ApplicationRunner {
 
   private final JokeRepository jokes;
+  private final UserRepository users;
 
   @Autowired
-  public DataLoader(JokeRepository jokes) {
+  public DataLoader(JokeRepository jokes, UserRepository users) {
     this.jokes = jokes;
+    this.users = users;
   }
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
     List<Joke> jokeList = readJokes();
     jokes.save(jokeList);
+
+    List<User> userList = Arrays.asList(
+        new User("Mike",  "Berbiglia", "berbigs", "password", new String[] {"ROLE_USER"}),
+        new User("Sara",  "Silverman", "silverwoman", "password", new String[] {"ROLE_USER"}),
+        new User("Tig",  "Notaro", "notarious", "password", new String[] {"ROLE_USER"}),
+        new User("Admin",  "Admin", "admin", "password", new String[] {"ROLE_USER", "ROLE_ADMIN"})
+    );
+
+    users.save(userList);
+
   }
 
   /**
-   * Reads a file {@code mitch_jokes.csv} from the class path and parses it into {@link Joke} entities.
+   * Reads a file {@code mitch_jokes.csv} from the class path and parses it into {@link Joke}
+   * entities.
    *
    * @throws Exception
    */
