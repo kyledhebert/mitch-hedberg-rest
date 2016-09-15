@@ -31,7 +31,11 @@ $(document).ready(function () {
             var url = 'http://localhost:8080/api/v1/jokes/search/containsWord?word=' + searchTerm;
             $.getJSON(url, function (data) {
                 var html = "";
+                console.log(data);
                 $.each(data._embedded, function (i, item) {
+                    if ($.isEmptyObject(item)) {
+                        html += "<p>No jokes matched your term. Please search again.</p>"
+                    }
                     $.each(item, function (j, joke) {
                         html += "<div class='card-panel'>";
                         html += "<p>" + joke.content + "</p>";
