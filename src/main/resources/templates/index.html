@@ -7,15 +7,16 @@
     <h1 class="header center orange-text">Hedberg API Demo</h1>
 
         <div class ="search row center">
-            <form>
-                <i class="material-icons prefix">search</i>
-                <input type="search" placeholder="Search" />
-            </form>
+            <i class="material-icons prefix">search</i>
+            <input type="text" placeholder="Search" id="search-term" />
+        </div>
+        <div id="jokes" class="row center">
+            <!--search results will appear here-->
         </div>
         <div class="joke row center">
             <div id="joke" class="card-panel">
-                <p class="flow-text joke-rank"></p>
                 <p class="flow-text joke-content"></p>
+                <p class="flow-text joke-rank"></p>
             </div>
         </div>
         <div class ="joke-button row center">
