@@ -2,6 +2,7 @@ package com.letkylehelp.hedberg.joke;
 
 import com.letkylehelp.hedberg.core.BaseEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -13,6 +14,7 @@ import javax.persistence.Entity;
 @Entity
 public class Joke extends BaseEntity {
   private int rank;
+  @Column(length = 1000)
   private String content;
 
   protected Joke() {
