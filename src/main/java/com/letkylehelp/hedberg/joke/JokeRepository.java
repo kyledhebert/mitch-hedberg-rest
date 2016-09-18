@@ -19,7 +19,7 @@ import java.util.List;
 public interface JokeRepository extends PagingAndSortingRepository<Joke, Long> {
   @RestResource(rel = "joke-contains", path = "containsWord")
   Page<Joke> findByContentContainingIgnoreCase(@Param("word") String word, Pageable pageable);
-  @RestResource(rel = "get-top-five-jokes")
+  @RestResource(rel = "get-top-five-jokes", path = "getTopFive")
   List<Joke> findTop5ByOrderByRankAsc();
 
 
@@ -32,5 +32,7 @@ public interface JokeRepository extends PagingAndSortingRepository<Joke, Long> {
   @Override
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   void delete(Joke entity);
+
+
 
 }
