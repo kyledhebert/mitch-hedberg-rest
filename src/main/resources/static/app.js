@@ -21,6 +21,7 @@ function getRandomJoke() {
     });
 }
 
+// gets a list of jokes based on a search term
 $(document).ready(function () {
     var searchTerm;
     // get search term on Enter key press
@@ -31,15 +32,14 @@ $(document).ready(function () {
             var url = 'http://localhost:8080/api/v1/jokes/search/containsWord?word=' + searchTerm;
             $.getJSON(url, function (data) {
                 var html = "";
-                console.log(data);
                 $.each(data._embedded, function (i, item) {
                     if ($.isEmptyObject(item)) {
                         html += "<p>No jokes matched your term. Please search again.</p>"
                     }
                     $.each(item, function (j, joke) {
                         html += "<div class='card-panel'>";
-                        html += "<p>" + joke.content + "</p>";
-                        html += "<p>Rank " + joke.rank + "</p>";
+                        html += "<p class='flow-text'>" + joke.content + "</p>";
+                        html += "<p class='flow-text'>Rank " + joke.rank + "</p>";
                         html += "</div>";
                     })
                 });
@@ -52,12 +52,38 @@ $(document).ready(function () {
     });
 });
 
+// get the top five jokes
+function getTopFiveJokes() {
+    var url = 'http://localhost:8080/api/v1/jokes/search/getTopFive'
+    $.getJSON(url, function (data) {
+        var html = "";
+        $.each(data._embedded, function (i, item) {
+            $.each(item, function (j, joke) {
+                html += "<div class='card-panel'>";
+                html += "<p class='flow-text'>" + joke.content + "</p>";
+                html += "<p class ='flow-text'>Rank " + joke.rank + "</p>";
+                html += "</div>";
+            })
+        });
+
+        $('.joke').empty();
+        $('.joke-button').empty();
+        $('#jokes').html(html);
+
+
+    })
+};
+
 $(document).ready(function () {
     $('#new-joke-button').click(function () {
         $('.joke-rank').empty();
         $('.joke-content').empty();
         getRandomJoke();
     });
+    $('#top-five').click(function () {
+        $('#search-term').val("");
+        getTopFiveJokes();
+    })
 });
 
 getRandomJoke();
